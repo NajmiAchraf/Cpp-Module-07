@@ -1,13 +1,20 @@
-#include "iter.hpp" 
+#include "Array.hpp"
 
-int	main(void) {
-	int		array[] = {1, 2, 3, 4, 5};
-	char	array2[] = "Hello";
-	float	array3[] = {1.1, 2.2, 3.3, 4.4, 5.5};
+int main(void) {
+	// Array<int> a(5);
+	// Array<int> b(5);
+	// Array<int> c(5);
+	// Array<int> d(5);
+	// Array<int> e(5);
+	// Array<int> f(5);
+	Array<int> f;
 
-	iter<int, int, void (*)(const int *, int)>(array, 5, printA);
-	iter<char, int, void (*)(const char *, int)>(array2, 5, printA);
-	iter<float, int, void (*)(const float *, int)>(array3, 5, printA);
+	// std::cout << a[0] << std::endl;
+	// std::cout << b[0] << std::endl;
+	// std::cout << c[0] << std::endl;
+	// std::cout << d[0] << std::endl;
+	// std::cout << e[0] << std::endl;
+	std::cout << f[0] << std::endl;
 
-	return (0);
+	return 0;
 }
