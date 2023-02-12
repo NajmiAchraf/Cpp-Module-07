@@ -30,17 +30,21 @@ class Array {
 
 	Array() {
 		cout << "Array default constructor" << endl;
-		this->_n	 = -1;
-		this->_array = new T();
+		this->_n	 = 0;
+		this->_array = nullptr;
 	};
 
 	Array(unsigned int n) {
 		cout << "Array constructor" << endl;
-		if (n <= 0) {
+		if (n < 0) {
 			throw Array::OutOfRangeException();
+		} else if (n == 0) {
+			this->_n	 = n;
+			this->_array = nullptr;
+		} else {
+			this->_n	 = n;
+			this->_array = new T[n]();
 		}
-		this->_n	 = n;
-		this->_array = new T[n]();
 	};
 
 	Array(const Array &array) {
@@ -54,13 +58,13 @@ class Array {
 		if (this != &array) {
 			delete[] this->_array;
 			this->_n = array.getN();
-			if (this->_n > 0) {
+			if (this->_n == 0) {
+				this->_array = nullptr;
+			} else if (this->_n > 0) {
 				this->_array = new T[this->_n];
 				for (unsigned int i = 0; i < this->_n; i++) {
 					this->setArray(i, array.getArray(i));
 				}
-			} else {
-				this->_array = new T();
 			}
 		}
 		return *this;

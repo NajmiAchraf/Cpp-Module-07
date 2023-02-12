@@ -3,14 +3,9 @@
 
 #include <iostream>
 
-template <class A, class B>
-void printA(A *array, B i) {
-	std::cout << array[i] << std::endl;
-}
-
 template <class A, class B, class C>
 void iter(A *array, B &length, C func) {
-	for (B i = 0; i < length; i++) {
+	for (unsigned int i = 0; static_cast<B>(i) < length; i++) {
 		func(array, i);
 	}
 }
