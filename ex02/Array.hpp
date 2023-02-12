@@ -9,6 +9,7 @@ using std::endl;
 
 template <class T>
 class Array {
+
   private:
 	unsigned int _n;
 	T			*_array;
