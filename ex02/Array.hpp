@@ -11,46 +11,55 @@ template <class T>
 class Array {
   private:
 	unsigned int _n;
-	T			*_arr;
+	T			*_array;
 
   public:
-	unsigned int getN() {
+	unsigned int getN() const {
 		return this->_n;
 	};
 
-	T getArr() {
-		return this->_arr;
+	T getArray(int i) const {
+		return this->_array[i];
 	};
+
+	void setArray(int i, T newArr) {
+		this->checkException(i);
+		this->_array[i] = newArr;
+	}
 
 	Array() {
 		cout << "Array default constructor" << endl;
-		this->_n   = -1;
-		this->_arr = new T();
+		this->_n	 = -1;
+		this->_array = new T();
 	};
 
 	Array(unsigned int n) {
 		cout << "Array constructor" << endl;
-		this->_n   = n;
-		this->_arr = new T[n]();
+		if (n <= 0) {
+			throw Array::OutOfRangeException();
+		}
+		this->_n	 = n;
+		this->_array = new T[n]();
 	};
 
 	Array(const Array &array) {
 		cout << "Array copy constructor" << endl;
-		this->_arr = new T;
-		*this	   = array;
+		this->_array = new T;
+		*this		 = array;
 	};
 
-	Array &operator=(const Array &array) {
+	Array<T> &operator=(const Array &array) {
 		cout << "Array copy assignment operator" << endl;
-		if (*this != *array) {
-			delete[] this->_arr;
+		if (this != &array) {
+			delete[] this->_array;
 			this->_n = array.getN();
-			if (this->_n != -1) {
-				this->getArr = new T[this->_n];
-				*this->_arr	 = *array.getArr();
+			if (this->_n > 0) {
+				this->_array = new T[this->_n];
+				for (unsigned int i = 0; i < this->_n; i++) {
+					this->setArray(i, array.getArray(i));
+				}
 			} else {
-				this->getArr = new T();
-				*this->_arr	 = *array.getArr();
+				this->_array = new T();
 			}
 		}
 		return *this;
@@ -58,14 +67,23 @@ class Array {
 
 	~Array() {
 		cout << "Array destructor" << endl;
-		delete[] this->_arr;
+		delete[] this->_array;
 	};
 
-	T &operator[](unsigned int i) {
-		if (i >= this->_n) {
-			throw std::out_of_range("Out of range");
+	void checkException(int i) {
+		if (i < 0 || static_cast<int>(this->_n) <= i) {
+			throw Array::OutOfRangeException();
 		}
-		return this->_arr[i];
+	}
+
+	T operator[](int i) const {
+		this->checkException(i);
+		return this->_array[i];
+	};
+
+	T &operator[](int i) {
+		this->checkException(i);
+		return this->_array[i];
 	};
 
 	class OutOfRangeException : public std::exception {
